@@ -1,0 +1,375 @@
+<title>nathanslist</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* layout: centred 1040px page; classic 3-column index (sidebar | category boxes | archive); one-column reading pages */
+:root{
+  --bg:#ffffff; --paper:#f4f4f7; --rule:#e3e3ea; --fg:#1b1b22; --muted:#6c6c7a;
+  --link:#1a0dab; --visited:#6b2a9e; --hl:#fff6bf; --ok:#2e7d32;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono:"IBM Plex Mono", "Courier New", monospace;
+  --sans:system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  color-scheme:light;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:16px;line-height:1.5;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 40px;
+  -webkit-font-smoothing:antialiased}
+section,.foot,.mockbar{max-width:1040px;margin-inline:auto}
+a{color:var(--link);text-decoration:none;text-underline-offset:3px}
+a:hover{text-decoration:underline}
+a:visited{color:var(--visited)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,label:focus-within{outline:2px solid var(--link);outline-offset:2px}
+
+.mockbar{font-family:var(--mono);font-size:11px;color:var(--muted);padding:8px 0;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;border-bottom:1px dashed var(--rule);margin-bottom:28px}
+.mockbar b{background:var(--hl);color:var(--fg);padding:1px 6px;font-weight:600;letter-spacing:.05em}
+.mockbar a.on{color:var(--fg);font-weight:600}
+
+/* ---- index ---- */
+.index{display:grid;grid-template-columns:180px minmax(0,1fr) 160px;gap:36px;align-items:start}
+.logo{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--visited);margin:0;letter-spacing:-.02em;line-height:1.1}
+.logo a,.logo a:visited{color:inherit;text-decoration:none}
+.tag{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+.side{display:flex;flex-direction:column;gap:20px;font-size:15px}
+.side ul,.right ul,.cat ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.writebtn{display:block;text-align:center;font-family:var(--sans);font-size:14px;font-weight:600;padding:7px 10px;border:1px solid var(--fg);color:var(--fg)!important;background:var(--bg);box-shadow:2px 2px 0 var(--fg)}
+.writebtn:hover{text-decoration:none;background:var(--hl)}
+.writebtn:active{transform:translate(2px,2px);box-shadow:none}
+.side input[type=text]{width:100%;box-sizing:border-box;font-family:var(--sans);font-size:13px;padding:6px 8px;border:1px solid var(--rule);background:var(--paper)}
+.cal{border-collapse:collapse;font-family:var(--mono);font-size:11px;width:100%}
+.cal caption{font-size:11px;padding-bottom:6px;text-align:left;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.cal th,.cal td{text-align:center;padding:3px 0;font-variant-numeric:tabular-nums}
+.cal th{color:var(--muted);font-weight:400}
+.cal td{color:#b0b0bc}
+.cal td a{font-weight:600}
+.cal td.today{outline:1px solid var(--fg);color:var(--fg)}
+
+.welcome{font-size:17px;margin:0 0 28px;color:var(--fg)}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px}
+.cat h2,.sideh{background:var(--paper);font-family:var(--serif);font-size:15px;font-weight:600;text-align:center;margin:0 0 10px;padding:4px 6px}
+.cat h2 a,.cat h2 a:visited{color:var(--fg)}
+.cat ul{font-size:15px;line-height:1.35;gap:7px}
+.n{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.cat li:last-child a{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.right{font-size:14px;display:flex;flex-direction:column;gap:24px}
+.right .sideh{text-align:left;background:none;padding:0 0 4px;border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11px;font-weight:400;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.foot{margin-top:56px;border-top:1px solid var(--rule);padding-top:12px;font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px}
+.foot nav{display:flex;gap:14px;flex-wrap:wrap}
+
+/* ---- inner pages ---- */
+.crumbs{font-size:15px;border-bottom:1px solid var(--rule);padding:0 0 12px;margin-bottom:24px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.crumbs .logo{font-size:22px}
+.crumbs .gt{color:var(--muted)}
+.crumbs .sp{flex:1}
+.crumbs .w{font-family:var(--sans);font-size:13px;font-weight:600}
+.listhead{font-family:var(--mono);font-size:11px;color:var(--muted);margin:0 0 8px;text-transform:uppercase;letter-spacing:.08em}
+.list{list-style:none;margin:0;padding:0;max-width:760px}
+.list li{display:flex;gap:16px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.list .d{font-family:var(--mono);font-size:12px;color:var(--muted);width:56px;flex:none;font-variant-numeric:tabular-nums}
+.list .t{font-size:17px;min-width:0;flex:1}
+.list .c{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.list .pic{font-family:var(--mono);font-size:10px;color:var(--ok);border:1px solid currentColor;padding:0 4px;letter-spacing:.05em}
+
+.post{max-width:660px}
+.post h1{font-size:34px;line-height:1.15;font-weight:600;letter-spacing:-.015em;margin:0 0 8px;text-wrap:balance}
+.meta{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:24px}
+.post .body{font-size:19px;line-height:1.6}
+.post .body p{margin:0 0 18px}
+.sharebox{border:1px solid var(--rule);background:var(--paper);padding:10px 12px;font-family:var(--sans);font-size:13px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:32px 0 20px}
+.sharebox input{flex:1;min-width:0;font-family:var(--mono);font-size:12px;padding:5px 7px;border:1px solid var(--rule);background:var(--bg)}
+.prevnext{display:flex;justify-content:space-between;gap:16px;font-size:15px;flex-wrap:wrap;border-top:1px solid var(--rule);padding-top:14px}
+button{font-family:var(--sans);font-size:13px;cursor:pointer;background:var(--bg);color:var(--fg);border:1px solid #b9b9c6;padding:5px 12px}
+button:hover{background:var(--paper)}
+.ok{color:var(--ok);font-family:var(--mono);font-size:12px}
+
+/* ---- write ---- */
+.form{max-width:660px;font-size:15px;display:flex;flex-direction:column;gap:20px}
+.form fieldset{border:0;border-top:1px solid var(--rule);margin:0;padding:12px 0 0}
+.form legend{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:0 8px 0 0}
+.radios{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 16px}
+.radios label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.form label.f{display:block;font-family:var(--sans);font-size:12px;font-weight:600;margin:10px 0 4px}
+.form input[type=text],.form textarea{width:100%;box-sizing:border-box;font-family:var(--serif);font-size:17px;padding:8px 10px;border:1px solid var(--rule);background:var(--bg)}
+.form input#w-title{font-size:22px;font-weight:600}
+.form textarea{min-height:240px;line-height:1.55;resize:vertical}
+.hint{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btns .pub{font-weight:600;background:var(--fg);color:var(--bg);border-color:var(--fg);box-shadow:2px 2px 0 var(--link)}
+.btns .pub:hover{background:var(--link);border-color:var(--link)}
+.preview{border:1px dashed #b9b9c6;padding:20px 22px}
+.preview .post h1{font-size:28px}
+
+.drop{display:block;border:1px dashed #b9b9c6;background:var(--paper);padding:22px 10px;text-align:center;font-family:var(--sans);font-size:13px;color:var(--muted);cursor:pointer}
+.drop u{color:var(--link)}
+.drop.over{background:var(--hl);border-color:var(--fg)}
+.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.thumb{width:100px;font-family:var(--mono);font-size:10px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.thumb img{width:100px;height:75px;object-fit:cover;border:1px solid var(--rule);display:block}
+.thumb button{font-size:11px;padding:2px 4px}
+.gallery{margin:0 0 24px;max-width:100%}
+.gallery .main{border:1px solid var(--rule);background:var(--paper);aspect-ratio:4/3;max-width:100%;max-height:440px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--muted);overflow:hidden}
+.gallery .main img{width:100%;height:100%;object-fit:contain}
+.gallery .strip{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.gallery .strip button{width:64px;height:48px;padding:0;border:1px solid var(--rule);background:var(--paper);font-family:var(--mono);font-size:10px;color:var(--muted);overflow:hidden}
+.gallery .strip button.on{outline:2px solid var(--link);outline-offset:1px}
+.gallery .cap{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px}
+
+@media (max-width:820px){
+  .index{grid-template-columns:minmax(0,1fr);gap:28px}
+  .cols{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .right{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+}
+@media (max-width:480px){
+  .cols,.side,.right,.radios{grid-template-columns:minmax(0,1fr)}
+  .post h1{font-size:28px}
+  .post .body{font-size:18px}
+}
+</style>
+
+<div class="mockbar"><b>MOCKUP</b> views:
+  <a href="#home" data-v="home">homepage</a>
+  <a href="#cat-food" data-v="cat">category list</a>
+  <a href="#post-pho" data-v="post">single post</a>
+  <a href="#write" data-v="write">write a post</a>
+</div>
+
+<!-- ============ HOME ============ -->
+<section id="v-home" hidden>
+  <div class="index">
+    <div class="side">
+      <div><h1 class="logo"><a href="#home">nathanslist</a></h1><span class="tag">a personal blog &middot; est. 2026</span></div>
+      <a class="writebtn" href="#write">write a post</a>
+      <ul>
+        <li><a href="#cat-all">all posts</a></li>
+        <li><a href="#home">about me</a></li>
+      </ul>
+      <div>
+        <input type="text" id="search" placeholder="search nathanslist" aria-label="search posts">
+      </div>
+      <table class="cal" id="cal"></table>
+    </div>
+
+    <div>
+      <p class="welcome">hi. this is where I write things down. no algorithm, no comments section, no cookie banner. pick a category or start with the newest stuff in <a href="#cat-all">all posts</a>.</p>
+      <div class="cols" id="cols"></div>
+    </div>
+
+    <div class="right">
+      <div>
+        <h2 class="sideh">archive</h2>
+        <ul>
+          <li><a href="#cat-all">nov 2026</a> <span class="n">(4)</span></li>
+          <li><a href="#cat-all">oct 2026</a> <span class="n">(6)</span></li>
+          <li><a href="#cat-all">sep 2026</a> <span class="n">(3)</span></li>
+          <li><a href="#cat-all">aug 2026</a> <span class="n">(5)</span></li>
+          <li><a href="#cat-all">older &raquo;</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="sideh">friends</h2>
+        <ul>
+          <li><a href="#home">sam's site</a></li>
+          <li><a href="#home">priya writes</a></li>
+          <li><a href="#home">the dan zone</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="sideh">subscribe</h2>
+        <ul><li><a href="#home">rss feed</a></li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATEGORY LIST ============ -->
+<section id="v-cat" hidden>
+  <div class="crumbs"><span class="logo"><a href="#home">nathanslist</a></span> <span class="gt">&rsaquo;</span> <b id="cat-name">food</b><span class="sp"></span><a class="w" href="#write">write a post</a></div>
+  <p class="listhead" id="cat-count"></p>
+  <ul class="list" id="cat-list"></ul>
+</section>
+
+<!-- ============ POST ============ -->
+<section id="v-post" hidden>
+  <div class="crumbs"><span class="logo"><a href="#home">nathanslist</a></span> <span class="gt">&rsaquo;</span> <a id="p-cat" href="#cat-food">food</a> <span class="gt">&rsaquo;</span> <span id="p-crumb"></span><span class="sp"></span><a class="w" href="#write">write a post</a></div>
+  <article class="post">
+    <h1 id="p-title"></h1>
+    <div class="meta" id="p-meta"></div>
+    <div class="body" id="p-body"></div>
+    <div class="sharebox">
+      <span>share this post:</span>
+      <input type="text" id="p-url" readonly aria-label="link to this post">
+      <button type="button" id="copy">copy link</button>
+      <span class="ok" id="copied" hidden>copied!</span>
+    </div>
+    <div class="prevnext" id="p-nav"></div>
+  </article>
+</section>
+
+<!-- ============ WRITE ============ -->
+<section id="v-write" hidden>
+  <div class="crumbs"><span class="logo"><a href="#home">nathanslist</a></span> <span class="gt">&rsaquo;</span> <b>write a post</b></div>
+  <form class="form" id="wform">
+    <fieldset>
+      <legend>choose a category:</legend>
+      <div class="radios" id="radios"></div>
+    </fieldset>
+    <fieldset>
+      <legend>your post</legend>
+      <label class="f" for="w-title">posting title</label>
+      <input type="text" id="w-title" value="first frost on the allotment">
+      <label class="f" for="w-body">posting body</label>
+      <textarea id="w-body">woke up and the whole plot was white. the kale is fine, kale is always fine. the last courgettes did not make it.
+
+lesson learned: pick everything the week the forecast says 3 degrees, not the week it says 1.</textarea>
+      <div class="hint">plain text is fine. blank line = new paragraph.</div>
+    </fieldset>
+    <fieldset>
+      <legend>images <span class="hint">(optional, up to 8)</span></legend>
+      <label class="drop" id="drop" for="w-imgs">drag photos here, or <u>choose files</u>
+        <input type="file" id="w-imgs" accept="image/*" multiple hidden>
+      </label>
+      <div class="thumbs" id="thumbs"></div>
+      <div class="hint">the first image is the main one. photos are shrunk automatically so pages load fast.</div>
+    </fieldset>
+    <div class="btns">
+      <button type="button" id="prev-btn">preview</button>
+      <button type="submit" class="pub">publish</button>
+      <button type="button">save draft</button>
+      <span class="ok" id="pub-msg" hidden>published (mockup only, nothing saved)</span>
+    </div>
+    <div class="preview" id="preview" hidden></div>
+  </form>
+</section>
+
+<div class="foot">
+  <span>&copy; 2026 nathanslist &middot; no ads, no tracking</span><nav><a href="#home">about</a><a href="#home">rss</a><a href="#write">write</a></nav><span>best viewed in any browser</span>
+</div>
+
+<script>
+const CATS={food:"food & drink",travel:"travel",tech:"tech & gadgets",music:"music",books:"books",life:"life stuff"};
+const POSTS=[
+ {id:"pho",cat:"food",d:"2026-11-08",t:"the best pho I've had is in a car park",pic:true,
+  b:["There's a van behind the leisure centre that does one thing: beef pho. No menu board, just a laminated card with the price on it.","The broth is the point. Clear, a bit sweet from the charred onion, loads of star anise. They hand you a bag of herbs and lime and leave you to it.","Open Thursday to Sunday, 11 till it runs out. It usually runs out by 2."]},
+ {id:"lisbon",cat:"travel",d:"2026-11-02",t:"four days in lisbon on foot",pic:true,b:["Walked about 70km. Calves are destroyed. Worth it."]},
+ {id:"keyboard",cat:"tech",d:"2026-11-01",t:"I built a keyboard and now I can't type",pic:false,b:["Split ergonomic layout. Day three. Typing this at 22 wpm."]},
+ {id:"vinyl",cat:"music",d:"2026-10-27",t:"records I bought at the car boot",pic:true,b:["£1 each, mostly great."]},
+ {id:"sourdough",cat:"food",d:"2026-10-21",t:"sourdough attempt #6",pic:true,b:["Better. Still flat."]},
+ {id:"novel",cat:"books",d:"2026-10-19",t:"finished: the long way to a small planet",pic:false,b:["Cosy and kind."]},
+ {id:"move",cat:"life",d:"2026-10-14",t:"moved flats, everything is in boxes",pic:false,b:["Found three kettles."]},
+ {id:"curry",cat:"food",d:"2026-10-09",t:"a weeknight dal that takes 25 minutes",pic:false,b:["Red lentils, tin of tomatoes, done."]},
+ {id:"router",cat:"tech",d:"2026-10-05",t:"replacing the ISP router (worth it)",pic:false,b:["Wifi reaches the bathroom now."]},
+ {id:"gig",cat:"music",d:"2026-10-02",t:"small gig, big sound",pic:false,b:["200 people, loudest show of the year."]},
+ {id:"coast",cat:"travel",d:"2026-09-28",t:"coast path, day 2, rain",pic:true,b:["Wet."]},
+ {id:"run",cat:"life",d:"2026-09-20",t:"started running again",pic:false,b:["Week one."]},
+ {id:"library",cat:"books",d:"2026-09-12",t:"the library is the best deal in town",pic:false,b:["Free books. Free wifi. Quiet."]},
+ {id:"ramen",cat:"food",d:"2026-09-04",t:"ramen ranking, round one",pic:false,b:["Five shops, one winner."]}
+];
+const MON=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+const fmt=d=>{const x=new Date(d+"T12:00");return MON[x.getMonth()]+" "+x.getDate()};
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=id=>document.getElementById(id);
+
+// home columns
+$("cols").innerHTML=Object.entries(CATS).map(([k,name])=>{
+  const ps=POSTS.filter(p=>p.cat===k).slice(0,4);
+  const n=POSTS.filter(p=>p.cat===k).length;
+  return `<div class="cat"><h2><a href="#cat-${k}">${name}</a></h2><ul>${ps.map(p=>`<li><a href="#post-${p.id}">${esc(p.t)}</a></li>`).join("")}<li><a href="#cat-${k}" class="n">all ${n} &raquo;</a></li></ul></div>`;
+}).join("");
+
+// calendar for nov 2026
+(function(){
+  const days=new Set(POSTS.filter(p=>p.d.startsWith("2026-11")).map(p=>+p.d.slice(8)));
+  const first=new Date(2026,10,1).getDay(); let h="<caption>november 2026</caption><tr>"+["s","m","t","w","t","f","s"].map(x=>`<th>${x}</th>`).join("")+"</tr><tr>";
+  for(let i=0;i<first;i++)h+="<td></td>";
+  for(let d=1;d<=30;d++){
+    const cls=d===10?' class="today"':"";
+    h+=`<td${cls}>${days.has(d)?`<a href="#cat-all">${d}</a>`:d}</td>`;
+    if((first+d)%7===0&&d<30)h+="</tr><tr>";
+  }
+  $("cal").innerHTML=h+"</tr>";
+})();
+
+function showCat(k){
+  const ps=k==="all"?POSTS:POSTS.filter(p=>p.cat===k);
+  $("cat-name").textContent=k==="all"?"all posts":CATS[k]||k;
+  $("cat-count").textContent=ps.length+" posts, newest first";
+  $("cat-list").innerHTML=ps.map(p=>`<li><span class="d">${fmt(p.d)}</span><a class="t" href="#post-${p.id}">${esc(p.t)}</a>${k==="all"?`<span class="c">(${CATS[p.cat]})</span>`:""}${p.pic?'<span class="pic">pic</span>':""}</li>`).join("");
+}
+function showPost(id){
+  const i=POSTS.findIndex(p=>p.id===id); const p=POSTS[i]||POSTS[0];
+  $("p-cat").textContent=CATS[p.cat]; $("p-cat").href="#cat-"+p.cat;
+  $("p-crumb").textContent=p.t.length>30?p.t.slice(0,30)+"…":p.t;
+  $("p-title").textContent=p.t;
+  $("p-meta").textContent="posted: "+p.d+" · "+CATS[p.cat]+" · "+(p.b.join(" ").split(/\s+/).length)+" words";
+  $("p-body").innerHTML=(p.pic?gallery(["[ photo 1 ]","[ photo 2 ]","[ photo 3 ]"],false):"")+p.b.map(x=>`<p>${esc(x)}</p>`).join("");
+  $("p-url").value="https://nathanslist.com/"+p.d.slice(0,7).replace("-","/")+"/"+p.id;
+  const newer=POSTS[i-1],older=POSTS[i+1];
+  $("p-nav").innerHTML=(older?`<a href="#post-${older.id}">&laquo; older: ${esc(older.t)}</a>`:"<span></span>")+(newer?`<a href="#post-${newer.id}">newer: ${esc(newer.t)} &raquo;</a>`:"");
+  $("copied").hidden=true;
+}
+$("radios").innerHTML=Object.entries(CATS).map(([k,n],i)=>`<label><input type="radio" name="cat" id="r-${k}" value="${k}"${k==="life"?" checked":""}> ${n}</label>`).join("");
+
+$("copy").addEventListener("click",()=>{
+  const inp=$("p-url");
+  const done=()=>{$("copied").hidden=false};
+  try{navigator.clipboard.writeText(inp.value).then(done,()=>{inp.select();done()})}catch(e){inp.select();done()}
+});
+// gallery: items are image URLs (real) or labels (placeholders)
+function gallery(items,real){
+  const cell=(x,big)=>real?`<img src="${x}" alt="">`:esc(x);
+  return `<div class="gallery"><div class="main">${cell(items[0])}</div>`+
+    (items.length>1?`<div class="strip">${items.map((x,i)=>`<button type="button" data-i="${i}"${i?"":' class="on"'} aria-label="show image ${i+1}">${real?`<img src="${x}" alt="" style="width:100%;height:100%;object-fit:cover">`:i+1}</button>`).join("")}</div>`:"")+
+    `<div class="cap">image 1 of ${items.length}</div></div>`;
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".gallery .strip button"); if(!b)return;
+  const g=b.closest(".gallery"), i=+b.dataset.i;
+  g.querySelectorAll(".strip button").forEach(x=>x.classList.toggle("on",x===b));
+  const img=b.querySelector("img");
+  g.querySelector(".main").innerHTML=img?`<img src="${img.src}" alt="">`:`[ photo ${i+1} ]`;
+  g.querySelector(".cap").textContent=`image ${i+1} of ${g.querySelectorAll(".strip button").length}`;
+});
+
+// image picker
+let IMGS=[];
+function drawThumbs(){
+  $("thumbs").innerHTML=IMGS.map((src,i)=>`<div class="thumb"><img src="${src}" alt="">${i===0?"<b>main</b>":`<button type="button" data-main="${i}">make main</button>`}<button type="button" data-rm="${i}">remove</button></div>`).join("");
+}
+function addFiles(files){
+  [...files].filter(f=>f.type.startsWith("image/")).slice(0,8-IMGS.length).forEach(f=>{
+    const r=new FileReader(); r.onload=()=>{IMGS.push(r.result);drawThumbs()}; r.readAsDataURL(f);
+  });
+}
+$("w-imgs").addEventListener("change",e=>{addFiles(e.target.files);e.target.value=""});
+const drop=$("drop");
+["dragenter","dragover"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add("over")}));
+["dragleave","drop"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove("over")}));
+drop.addEventListener("drop",e=>addFiles(e.dataTransfer.files));
+$("thumbs").addEventListener("click",e=>{
+  const rm=e.target.dataset.rm, mn=e.target.dataset.main;
+  if(rm!==undefined){IMGS.splice(+rm,1);drawThumbs()}
+  if(mn!==undefined){IMGS.unshift(IMGS.splice(+mn,1)[0]);drawThumbs()}
+});
+
+function renderPreview(){
+  const t=$("w-title").value.trim()||"(untitled)";
+  const paras=$("w-body").value.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);
+  $("preview").innerHTML=`<div class="hint">preview</div><div class="post"><h1>${esc(t)}</h1><div class="meta">posted: 2026-11-10 · ${CATS[document.querySelector('input[name=cat]:checked').value]}${IMGS.length?" · "+IMGS.length+" image"+(IMGS.length>1?"s":""):""}</div><div class="body">${IMGS.length?gallery(IMGS,true):""}${paras.map(p=>`<p>${esc(p)}</p>`).join("")}</div></div>`;
+  $("preview").hidden=false;
+}
+$("prev-btn").addEventListener("click",renderPreview);
+$("wform").addEventListener("submit",e=>{e.preventDefault();renderPreview();$("pub-msg").hidden=false});
+$("search").addEventListener("keydown",e=>{if(e.key==="Enter")location.hash="cat-all"});
+
+function route(){
+  const h=location.hash.slice(1)||"home";
+  let v="home";
+  if(h.startsWith("cat-")){v="cat";showCat(h.slice(4))}
+  else if(h.startsWith("post-")){v="post";showPost(h.slice(5))}
+  else if(h==="write")v="write";
+  ["home","cat","post","write"].forEach(x=>$("v-"+x).hidden=x!==v);
+  document.querySelectorAll(".mockbar a").forEach(a=>a.classList.toggle("on",a.dataset.v===v));
+  window.scrollTo(0,0);
+}
+addEventListener("hashchange",route); route();
+</script>

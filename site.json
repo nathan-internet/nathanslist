@@ -1,0 +1,22 @@
+{
+  "title": "nathanslist",
+  "tagline": "a personal blog · est. 2026",
+  "url": "https://nathan-internet.github.io/nathanslist",
+  "base_path": "/nathanslist",
+  "github": {
+    "owner": "nathan-internet",
+    "repo": "nathanslist",
+    "branch": "main"
+  },
+  "welcome": "hi. this is where I write things down. no algorithm, no comments section, no cookie banner.",
+  "about": "hi, I'm Nathan. this is my little corner of the internet.\n\nno ads, no tracking, no algorithm. just posts, newest first.",
+  "categories": {
+    "food": "food & drink",
+    "travel": "travel",
+    "tech": "tech & gadgets",
+    "music": "music",
+    "books": "books",
+    "life": "life stuff"
+  },
+  "friends": []
+}
