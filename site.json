@@ -11,12 +11,12 @@
   "welcome": "hi. this is where I write things down. no algorithm, no comments section, no cookie banner.",
   "about": "hi, I'm Nathan. this is my little corner of the internet.\n\nno ads, no tracking, no algorithm. just posts, newest first.",
   "categories": {
-    "food": "food & drink",
-    "travel": "travel",
-    "tech": "tech & gadgets",
-    "music": "music",
     "books": "books",
-    "life": "life stuff"
+    "thoughts": "thoughts",
+    "products": "products",
+    "questions": "questions",
+    "travel": "travel",
+    "funny": "funny stuff"
   },
   "friends": []
 }

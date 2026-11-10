@@ -1,6 +1,6 @@
 ---
 title: hello, world
-category: life
+category: thoughts
 date: 2026-11-10 09:00
 images: 
 ---
