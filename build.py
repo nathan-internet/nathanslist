@@ -233,7 +233,7 @@ def home(posts, months):
     <table class="cal" id="cal" data-dates="{dates}" data-base="{base}"></table>
   </div>
   <div>
-    <p class="welcome">{welcome} pick a category or start with the newest stuff in <a href="{all}">all posts</a>.</p>
+    <p class="welcome">{welcome}</p>
     <div class="cols">{cols}</div>
   </div>
   <div class="right">
